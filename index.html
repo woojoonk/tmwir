@@ -1,0 +1,345 @@
+<!doctype html>
+<html>
+<head>
+<title>Tell Me What I'm Remembering</title>
+</head>
+<body>
+	<div id="main">
+		<div id="title">
+			<p id="title_name">
+				<span class ="tt" id="text_0">Tell</span><br>
+				<span class ="tt" id="text_1">Me</span><br>
+				<span class ="tt" id="text_2">What</span><br>
+				<span class ="tt" id="text_3">I'm</span><br>
+				<span class ="tt" id="text_4">Remembering</span>
+			</p>
+			<button id='start_button' onclick="startButton(event)">listen & tell</button>
+		</div>
+	</div>
+	<div id="text_area">
+		<div id="main_text">
+		</div>
+	</div>
+</body>
+<style>
+	body {
+		background-color: #d2c7ad;
+	}
+
+	#main {
+		z-index: 2;
+		width: 100%;
+		position: absolute;
+		text-align: center;
+	}
+
+	#text_area {
+		z-index: 1;
+		position: absolute;
+		overflow: hidden;
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+		padding: 0 60px 0 60px;
+		border-bottom: solid 60px #d2c7ad;
+		border-top: solid 60px #d2c7ad;
+		text-align: left;
+		font-family: "Gill Sans", sans-serif;
+		font-size: 29px;
+		line-height: 1.7;
+	}
+
+	#main_text {
+		position: relative;
+		height: 100%;
+		display: block;
+	}
+
+	.appear {
+		animation-name: appearAnimation;
+		animation-duration: 4s;
+		animation-iteration-count: 1;
+		animation-timing-function: ease;
+		animation-fill-mode: forwards;
+	}
+
+	.disappear {
+		animation-name: disappearAnimation;
+		animation-duration: 3s;
+		animation-iteration-count: 1;
+		animation-timing-function: ease;
+		animation-fill-mode: forwards;
+	}
+
+	.quickDisappear {
+		animation-name: disappearAnimation;
+		animation-duration: 0.7s;
+		animation-iteration-count: 1;
+		animation-timing-function: ease;
+		animation-fill-mode: forwards;
+	}
+
+	.quickAppear {
+		animation-name: appearAnimation;
+		animation-duration: 0.7s;
+		animation-iteration-count: 1;
+		animation-timing-function: ease;
+		animation-fill-mode: forwards;
+	}
+
+	.scrollStart {
+		animation-name: scrollAnimation;
+		animation-timing-function: linear;
+		/*text reading time around 235 sec*/
+		animation-duration: 250s;
+		animation-iteration-count: 1;
+		animation-fill-mode: forwards;
+	}
+
+	@keyframes scrollAnimation {
+		0% {
+			top: 0%;
+		}
+		100% {
+			top: -370%;
+		}
+	}
+
+	@keyframes disappearAnimation {
+		100% {
+			opacity: 0;
+		}
+	}
+
+	@keyframes appearAnimation {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
+
+	#text_1 {
+		animation-delay: 1s;
+	}
+
+	#text_2 {
+		animation-delay: 2s;
+	}
+
+	#text_3 {
+		animation-delay: 3s;
+	}
+
+	#text_4 {
+		animation-delay: 4s;
+	}
+
+
+	#title_name {
+		font-family: "Gill Sans", sans-serif;
+		font-size: 80px;
+		line-height: 2;
+		font-style:  oblique;
+		font-weight: 600;
+		text-shadow: 0 0 50px;
+	}
+
+	#start_button {
+		text-align: center;
+		font-size: 24px;
+		font-family: "Times New Roman";
+		padding: 5px;
+		display: inline-block;
+		animation-delay: 5s;
+	}
+
+</style>
+<script>
+if ('speechSynthesis' in window) {
+ // Speech Synthesis supported 🎉
+}else{
+  // Speech Synthesis Not Supported 😣
+  alert("Sorry, your browser doesn't support text to speech!");
+}
+
+var startText = "Leukaemia is a group of blood cancer that usually begin in the bone marrow and result in high numbers of abnormal blood cells. These blood cells are not fully developed and are called blasts or leukaemia cells. \n\n The word leukaemia was named by a German physician Rudolf Virchow when he discovered an abnormally large number of white blood cells in a blood sample of a person. He called this condition Leukamie in German, which he formed the two Greek words leukos, meaning, white, and haima meaning, blood. \n\n There are four main types of leukaemia as well as a number of less common types. Leukaemia is mainly either acute -sudden on set- or chronic -slow onset-. In acute leukaemia, cancer cells multiply quickly. In chronic leukaemia, the disease progresses slowly and early symptoms may be very mild. Leukaemia is also categorised according to the type of cell. Leukaemia involving myeloid cells is called myelogenous leukaemia. Myeloid cells are immature blood cells that's normally become granulocytes ormonocytes. Leukaemia involving lymphocytes is called lymphocytic leukaemia. \n\n Acute myelogenous leukaemia (AML) affects both children and adults and it is the most common form of leukaemia. The five-year survival rate for AML is 26 percent. Acute lymphocytic leukaemia (ALL) occurs mostly in children. Three-quarters of leukaemia cases in children belong to this type. The five-year survival rate for ALL is 68 percent. Chronic myelogenous leukaemia (CML) affects mostly adults.The five-year survival rate for CML is 66 percent. Chronic lymphocytic leukaemia (CLL) most likely affects people over the age of 55, rarely seen in children. The five-year survival rate for CLL is 83 percent. \n\n Even though it is the most common type of cancer in children, over 90% of all leukaemias are diagnosed in adults, with CLL and AML being most common in adults. Statistically, it occurs more commonly in the developed world. \n\n Symptoms of leukaemia may differ depending on the specific type one has but they generally include: bleeding excessively, easy bruising, fatigue, fever, enlarged spleen or liver, dysfunctional immune system thus increased risk of infections, anemia or red blood cell deficiency that causes pale skin and difficulty in breathing, and swelling of lymph nodes. \n\n The exact cause of leukaemia is unknown but its speculated that a combination of genetic and environmental factors seem to play a role. The non-inherent factors include smoking, ionising radiation, some chemicals (such as benzene), exposure to high levels of radiation, blood disorders which are sometimes called preleukaemia, and Down Syndrome. \n\n Diagnosis for leukaemia is usually based on observations of the symptoms through a physical exam, repeated complete blood counts, a bone marrow exam, x-ray, MRI, ultrasound, and or CT scan. Sometimes, blood tests may not show that a person has leukaemia, especially in the early stages of the disease or during remission. A lymph node biopsy can be performed to diagnose certain types of leukaemia in certain situations. \n\n Treatment may involve combination of chemotherapy, radiation therapy, pharmaceutical medication, and bone marrow transplant. In children under 15, the five-year survival rate is greater than 60% or even 90%, depending on the type of leukaemia. \n\n In children with acute leukaemia who are cancer-free after five years, the cancer is unlikely to return. Today, the average five-year survival rate for all types of leukaemia for all age range is 65%.";
+
+var msg = new SpeechSynthesisUtterance();
+var voices = window.speechSynthesis.getVoices();
+msg.volume = 1; // From 0 to 1
+msg.rate = 0.6; // From 0.1 to 10
+msg.pitch = 0.8; // From 0 to 2
+msg.lang = 'en';
+msg.voice = voices[0];
+
+var readingPoint = 0;
+var texts = startText.split(".");
+var newPara = [];
+for (let sent of texts) {
+	if (sent.includes("\n\n")) {
+		newPara.push(1);
+	} else {
+		newPara.push(0);
+	}
+}
+
+var scrolling = 0;
+
+var recognition = new webkitSpeechRecognition();
+recognition.lang = "en-GB";
+recognition.continuous = true;
+var recogPointer = 0;
+
+var startTextList = startText.split(" ");
+var commonWords = ["a", "an", "the", "are", "is", "on", "as",
+"and", "or", "can", "be", "in", "not", "that", "this", "may", "that's", "doesn't", "does",
+ "of", "to", "has", "have", "I", "you", "they", "he", "her", "she", "him", "their", ""];
+
+function filterCommonWords(value) {
+	return !commonWords.includes(value);
+}
+
+function filterNewLine(value) {
+	return value != "\n\n"
+}
+
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min) ) + min;
+}
+
+function mix() {
+	document.getElementById("main_text").innerText = "";
+	document.getElementById("main_text").classList.remove("appear", "scrollStart");
+	document.getElementById("text_area").classList.remove("disappear");
+	readingPoint = 0;
+	setMainText(texts, 0);
+}
+
+msg.onend = function(event) {
+	if (scrolling == 0 && readingPoint == 5) {
+		scrolling = 1;
+		document.getElementById("main_text").classList.add("scrollStart");
+	}
+	readingPoint++;
+
+	if (readingPoint < texts.length - 1) { 
+		msg.text = texts[readingPoint];
+		window.speechSynthesis.speak(msg);
+	} else {
+		document.getElementById("main_text").classList.remove("appear");
+		document.getElementById("text_area").classList.add("disappear");
+		setTimeout(function() {
+			scrolling = 0;
+			mix();
+		},4000);
+	}
+}
+
+recognition.onend = function(event) {
+	recogPointer = 0;
+	recognition.start();
+}
+
+
+recognition.onresult = function(event) {
+	var heard = event.results[recogPointer][0].transcript.split(" ").filter(filterCommonWords);
+
+	var tempRead = readingPoint;
+
+	var curSentence = document.getElementById("sentence" + tempRead).
+		innerText;
+	var curSentenceGroup = document.getElementById("sentence" + tempRead).
+		innerText.split(" ");
+
+	var newWord = heard[getRndInteger(0, heard.length)];
+	
+	var replaceInd = getRndInteger(1,curSentenceGroup.length - 2);
+	var replace = curSentenceGroup[replaceInd]; 
+	
+	if (replace.includes(".") && !newWord.includes(".")) {
+		newWord = newWord + ".";
+	}
+
+	if (replace.includes(",") && !newWord.includes(",")) {
+		newWord = newWord + ",";
+	}
+
+	if (replace.includes(":") && !newWord.includes(":")) {
+		newWord = newWord + ":";
+	}
+
+	if (replace.includes("(") && !newWord.includes("(")) {
+		newWord = "(" + newWord;
+	}
+
+	if (replace.includes(")") && !newWord.includes(")")) {
+		newWord = newWord + ")";
+	}
+
+	curSentenceGroup[replaceInd] = newWord;
+	recogPointer++;
+
+	var newSentence = curSentenceGroup.join(" ");
+
+	texts[tempRead] =newSentence;
+	document.getElementById("sentence" + tempRead).classList.add("quickDisappear");
+	setTimeout(function() {
+		document.getElementById("sentence" + tempRead).innerText 
+		= newSentence;
+		document.getElementById("sentence" + tempRead).classList.add("quickAppear");
+		setTimeout(function() {
+		document.getElementById("sentence" + tempRead).classList.remove("quickAppear");
+		document.getElementById("sentence" + tempRead).classList.remove("quickDisappear");
+		}, 710);
+	}, 720);
+}
+
+function setMainText(value, firstTime) {
+	var mainText = document.getElementById("main_text");
+	var sentences = value;
+	var ht = "";
+	var dot = firstTime === 1 ? ". " : " "
+	for (let i = 0; i < sentences.length - 1; i++) {
+		if (newPara[i] === 1) {
+			ht = ht + "<br><br>";
+		}
+
+		var inner = "<span id='sentence" + i + "'>" + sentences[i] + dot + "</span>";
+		ht = ht + inner;
+	}
+
+	document.getElementById("main_text").innerHTML = ht;
+	mainText.classList.add("appear");
+	msg.text = texts[readingPoint];
+	setTimeout(function() {
+		window.speechSynthesis.speak(msg);
+	}, 1000)
+}
+
+function deleteTitle(firstTime) {
+	setTimeout(function() {
+		document.getElementById("main").remove();
+		setTimeout(function() {
+			setMainText(startText.split("."), firstTime);
+		}, 1000)		
+	}, 8000) //should be 8000
+}
+
+function eraseTitle(event, firstTime) {
+	document.getElementById('text_0').classList.add("disappear");
+	document.getElementById('text_1').classList.add("disappear");
+	document.getElementById('text_2').classList.add("disappear");
+	document.getElementById('text_3').classList.add("disappear");
+	document.getElementById('text_4').classList.add("disappear");
+	document.getElementById('start_button').classList.add("disappear");
+
+	deleteTitle(firstTime);
+}
+
+function startButton(event) {
+	recognition.start();
+	eraseTitle(event, 1);
+}
+</script>
