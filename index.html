@@ -205,14 +205,12 @@ var scrolling = 0;
 
 var recognition = new webkitSpeechRecognition();
 recognition.lang = "en-GB";
-// recognition.continuous = true;
-// recognition.interimResults = true;
 var recogPointer = 0;
 
 var startTextList = startText.split(" ");
-var commonWords = ["a", "an", "the", "are", "is", "on", "as",
-"and", "or", "can", "be", "in", "not", "that", "this", "may", "that's", "doesn't", "does",
- "of", "to", "has", "have", "I", "you", "they", "he", "her", "she", "him", "their", ""];
+var commonWords = ["a", "an", "the", "on", "as",
+"and", "or", "can", "in", "not", "that", "this", "may", "that's", "doesn't", "does",
+ "of", "I", "you", "they", "he", "her", "she", "him", "their", ""];
 
 function filterCommonWords(value) {
 	return !commonWords.includes(value);
