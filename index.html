@@ -268,8 +268,6 @@ recognition.onend = function(event) {
 
 
 recognition.onresult = function(event) {
-	console.log(event.results);
-	//console.log(event.results[recogPointer][0].transcript);
 	var heard = event.results[recogPointer][0].transcript.split(" ").filter(filterCommonWords);
 
 	var tempRead = readingPoint;
@@ -310,7 +308,6 @@ recognition.onresult = function(event) {
 	var newSentence = curSentenceGroup.join(" ");
 
 	texts[tempRead] = newSentence;
-	console.log(newSentence);
 	document.getElementById("sentence" + tempRead).classList.add("quickDisappear");
 	setTimeout(function() {
 		document.getElementById("sentence" + tempRead).innerText 
