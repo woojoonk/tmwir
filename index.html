@@ -1,6 +1,8 @@
 <!doctype html>
 <html>
 <head>
+<link href="https://fonts.googleapis.com/css?family=Prompt&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Satisfy&display=swap" rel="stylesheet">
 <title>Tell Me What I'm Remembering</title>
 </head>
 <body>
@@ -20,10 +22,21 @@
 		<div id="main_text">
 		</div>
 	</div>
+	<button id="fullscreen" onclick="fullscreen(event)"></button>
 </body>
 <style>
+
 	body {
 		background-color: #d2c7ad;
+	}
+
+	#fullscreen {
+		position: absolute;
+		width: 80px;
+		height: 80px;
+		background-color: #d2c7ad;
+		z-index: 3;
+		border: 0px;
 	}
 
 	#main {
@@ -44,8 +57,8 @@
 		border-bottom: solid 60px #d2c7ad;
 		border-top: solid 60px #d2c7ad;
 		text-align: left;
-		font-family: "Gill Sans", sans-serif;
-		font-size: 38px;
+		font-family: "Prompt", sans-serif;
+		font-size: 36px;
 		line-height: 1.7;
 	}
 
@@ -101,7 +114,7 @@
 			top: 0%;
 		}
 		100% {
-			top: -370%;
+			top: -360%;
 		}
 	}
 
@@ -138,7 +151,7 @@
 
 
 	#title_name {
-		font-family: "Gill Sans", sans-serif;
+		font-family: "Satisfy", sans-serif;
 		font-size: 105px;
 		line-height: 2;
 		font-style:  oblique;
@@ -176,6 +189,9 @@ msg.voice = voices[0];
 
 var readingPoint = 0;
 var texts = startText.split(".");
+for (let i = 0; i < texts.length; i++) {
+	texts[i] = texts[i] + "."
+}
 var newPara = [];
 for (let sent of texts) {
 	if (sent.includes("\n\n")) {
@@ -189,7 +205,8 @@ var scrolling = 0;
 
 var recognition = new webkitSpeechRecognition();
 recognition.lang = "en-GB";
-recognition.continuous = true;
+// recognition.continuous = true;
+// recognition.interimResults = true;
 var recogPointer = 0;
 
 var startTextList = startText.split(" ");
@@ -207,6 +224,13 @@ function filterNewLine(value) {
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min) ) + min;
+}
+
+function runRecognitionForever() {
+	setTimeout(function() {
+		recognition.stop();
+		runRecognitionForever();
+	}, 4000);
 }
 
 function mix() {
@@ -244,6 +268,8 @@ recognition.onend = function(event) {
 
 
 recognition.onresult = function(event) {
+	console.log(event.results);
+	//console.log(event.results[recogPointer][0].transcript);
 	var heard = event.results[recogPointer][0].transcript.split(" ").filter(filterCommonWords);
 
 	var tempRead = readingPoint;
@@ -255,7 +281,7 @@ recognition.onresult = function(event) {
 
 	var newWord = heard[getRndInteger(0, heard.length)];
 	
-	var replaceInd = getRndInteger(1,curSentenceGroup.length - 2);
+	var replaceInd = getRndInteger(1,curSentenceGroup.length - 1);
 	var replace = curSentenceGroup[replaceInd]; 
 	
 	if (replace.includes(".") && !newWord.includes(".")) {
@@ -283,7 +309,8 @@ recognition.onresult = function(event) {
 
 	var newSentence = curSentenceGroup.join(" ");
 
-	texts[tempRead] =newSentence;
+	texts[tempRead] = newSentence;
+	console.log(newSentence);
 	document.getElementById("sentence" + tempRead).classList.add("quickDisappear");
 	setTimeout(function() {
 		document.getElementById("sentence" + tempRead).innerText 
@@ -296,17 +323,16 @@ recognition.onresult = function(event) {
 	}, 720);
 }
 
-function setMainText(value, firstTime) {
+function setMainText(value) {
 	var mainText = document.getElementById("main_text");
 	var sentences = value;
 	var ht = "";
-	var dot = firstTime === 1 ? ". " : " "
 	for (let i = 0; i < sentences.length - 1; i++) {
 		if (newPara[i] === 1) {
 			ht = ht + "<br><br>";
 		}
 
-		var inner = "<span id='sentence" + i + "'>" + sentences[i] + dot + "</span>";
+		var inner = "<span id='sentence" + i + "'>" + sentences[i] + " </span>";
 		ht = ht + inner;
 	}
 
@@ -318,16 +344,16 @@ function setMainText(value, firstTime) {
 	}, 1000)
 }
 
-function deleteTitle(firstTime) {
+function deleteTitle() {
 	setTimeout(function() {
 		document.getElementById("main").remove();
 		setTimeout(function() {
-			setMainText(startText.split("."), firstTime);
+			setMainText(texts);
 		}, 1000)		
 	}, 8000) //should be 8000
 }
 
-function eraseTitle(event, firstTime) {
+function eraseTitle(event) {
 	document.getElementById('text_0').classList.add("disappear");
 	document.getElementById('text_1').classList.add("disappear");
 	document.getElementById('text_2').classList.add("disappear");
@@ -335,11 +361,16 @@ function eraseTitle(event, firstTime) {
 	document.getElementById('text_4').classList.add("disappear");
 	document.getElementById('start_button').classList.add("disappear");
 
-	deleteTitle(firstTime);
+	deleteTitle();
 }
 
 function startButton(event) {
 	recognition.start();
-	eraseTitle(event, 1);
+	runRecognitionForever();
+	eraseTitle(event);
+}
+
+function fullscreen(event) {
+	document.documentElement.webkitRequestFullScreen();
 }
 </script>
