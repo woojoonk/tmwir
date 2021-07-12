@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Prompt&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
 <title>Tell Me What I'm Remembering</title>
@@ -100,24 +101,6 @@
 		animation-fill-mode: forwards;
 	}
 
-	.scrollStart {
-		animation-name: scrollAnimation;
-		animation-timing-function: linear;
-		/*text reading time around 235 sec*/
-		animation-duration: 290s;
-		animation-iteration-count: 1;
-		animation-fill-mode: forwards;
-	}
-
-	@keyframes scrollAnimation {
-		0% {
-			top: 0%;
-		}
-		100% {
-			top: -550%;
-		}
-	}
-
 	@keyframes disappearAnimation {
 		100% {
 			opacity: 0;
@@ -201,8 +184,6 @@ for (let sent of texts) {
 	}
 }
 
-var scrolling = 0;
-
 var recognition = new webkitSpeechRecognition();
 recognition.lang = "en-GB";
 var recogPointer = 0;
@@ -233,27 +214,23 @@ function runRecognitionForever() {
 
 function mix() {
 	document.getElementById("main_text").innerText = "";
-	document.getElementById("main_text").classList.remove("appear", "scrollStart");
 	document.getElementById("text_area").classList.remove("disappear");
 	readingPoint = 0;
 	setMainText(texts, 0);
 }
 
 msg.onend = function(event) {
-	if (scrolling == 0 && readingPoint == 3) {
-		scrolling = 1;
-		document.getElementById("main_text").classList.add("scrollStart");
-	}
 	readingPoint++;
 
 	if (readingPoint < texts.length - 1) { 
 		msg.text = texts[readingPoint];
 		window.speechSynthesis.speak(msg);
+		var curTop = document.querySelector("#sentence" + readingPoint).offsetTop * -1;
+		$("#main_text").animate({top:curTop + "px", easing: "linear"}, 6000);
 	} else {
 		document.getElementById("main_text").classList.remove("appear");
 		document.getElementById("text_area").classList.add("disappear");
 		setTimeout(function() {
-			scrolling = 0;
 			mix();
 		},4000);
 	}
