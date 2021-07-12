@@ -214,6 +214,7 @@ function runRecognitionForever() {
 
 function mix() {
 	document.getElementById("main_text").innerText = "";
+	$("#main_text").css({top:"0px"});
 	document.getElementById("text_area").classList.remove("disappear");
 	readingPoint = 0;
 	setMainText(texts, 0);
