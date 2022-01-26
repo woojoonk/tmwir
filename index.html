@@ -167,7 +167,7 @@ var voices = window.speechSynthesis.getVoices();
 msg.volume = 1; // From 0 to 1
 msg.rate = 0.6; // From 0.1 to 10
 msg.pitch = 0.8; // From 0 to 2
-msg.lang = 'en';
+msg.lang = 'en-US';
 msg.voice = window.speechSynthesis.getVoices()[10];
 
 var readingPoint = 0;
@@ -313,6 +313,7 @@ function setMainText(value) {
 	mainText.classList.add("appear");
 	msg.text = texts[readingPoint];
 	setTimeout(function() {
+		msg.voice = window.speechSynthesis.getVoices()[10];
 		window.speechSynthesis.speak(msg);
 	}, 1000)
 }
